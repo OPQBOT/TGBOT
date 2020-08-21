@@ -2,11 +2,11 @@ package tdlib
 
 //#cgo linux CFLAGS: -I../TGCLI
 //#cgo darwin CFLAGS: -I../TGCLI
-//#cgo windows CFLAGS: -IC:/src/td -IC:/src/td/build
+//#cgo windows CFLAGS: -Itd
+//#cgo windows LDFLAGS: -Ltd -ltdjson
 //#cgo linux LDFLAGS: -L../TGCLI -ltdjson -ldl -lz -lm
 //#cgo darwin LDFLAGS: -L../TGCLI -ltdjson.1.6.0 -ldl -lz -lm
 //#cgo LDFLAGS: -Wl,-rpath,./
-//#cgo windows LDFLAGS: -LC:/src/td/build/Debug -ltdjson
 //#include <stdlib.h>
 //#include <td/telegram/td_json_client.h>
 //#include <td/telegram/td_log.h>

@@ -19,6 +19,13 @@ GitHub上开源的TG一些库,bot-api用的不习惯 `pyrogram` `telethon`比如
 * 编译启用 CGO_ENABLED=1
 * 并不支持一个平台编译出 多个平台  工具链配置可能比较繁琐 建议在使用环境下编译或使用我编译好的自行开发插件即可
 * Linux 下编译需要在TGCLI目录下创建一个软链 `ln -s libtdjson.so.1.6.0 libtdjson.so`
+* Windows 需要 `MinGW-W64` 环境 将 TGCLI 目录下的td 目录复制到tdlib中 在将编译好的tdjson.dll放入 tdlib/td目录下进行链接编译即可 或自己配置 头文件引用目录也可以
+## 开箱即用
+
+* 只封装了发消息 发图片 撤回消息几个接口  对于TG爬🐛 消息监听 足够用   有需要可以自行二开
+
+[🔗下载地址🔗](https://github.com/OPQBOT/TGBOT/releases)
+
 ```javascript
 function test() {
 	console.log("欢迎大佬 拍砖 吐槽");

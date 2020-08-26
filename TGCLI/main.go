@@ -154,43 +154,38 @@ func CheckProxy() {
 				for _, v := range proxys.Proxies {
 					t, err := client.PingProxy(v.ID)
 					coust := 0.0
+					ChackFlag := false
 					if err != nil {
-
-						if err.Error() == "timeout" {
-							//pmap[v.ID]
-							count := 0
-							if _, ok := pmap[v.ID]; ok {
-								pmap[v.ID] += 1
-								count = pmap[v.ID]
-							} else {
-								pmap[v.ID] = 1
-							}
-
-							tcp.Logger.Error("Proxy %d err %v try %d", v.ID, err, count)
-
-							if count == 15 {
-
-								if v.IsEnabled {
-									proxyFlag = true
-								}
-								delete(pmap, v.ID)
-								client.RemoveProxy(v.ID)
-
-							}
-
-							continue
-						}
+						ChackFlag = true
 					} else {
-
+						if t.Seconds == 0 {
+							ChackFlag = true
+						}
+					}
+					if ChackFlag {
+						count := 0
 						if _, ok := pmap[v.ID]; ok {
+							pmap[v.ID] += 1
+							count = pmap[v.ID]
+						} else {
+							pmap[v.ID] = 1
+						}
+						tcp.Logger.Error("Proxy %d Err %v Try %d", v.ID, err, count)
+						if count == 15 {
+							if v.IsEnabled {
+								proxyFlag = true
+							}
+							delete(pmap, v.ID)
+							client.RemoveProxy(v.ID)
 
+						}
+						continue
+					} else {
+						if _, ok := pmap[v.ID]; ok {
 							pmap[v.ID] = 0
-
 						}
 						coust = t.Seconds
-
 					}
-
 					l, err := client.GetProxyLink(v.ID)
 					if err == nil {
 						if proxyFlag {
@@ -204,7 +199,6 @@ func CheckProxy() {
 
 			}
 			break
-
 		case <-pullproxy.C:
 			GetProxy()
 			break
